@@ -1,6 +1,10 @@
+import { JSX } from "react/jsx-runtime"
 import { Transaction } from "./OrderSearch"
+import { PaymentTableRow } from "./PaymentTableRow"
+import { PaymentType } from "./DataFunctions"
 
-const OrderGrid = ():JSX.Element => {
+
+const OrderGrid = (props: PaymentType[]):JSX.Element => {
 
     return(
        <>
@@ -12,13 +16,7 @@ const OrderGrid = ():JSX.Element => {
                 <th>Currency</th>
                 <th>Amount</th>
             </tr>
-            <tr>
-                <td>123</td>
-                <td>wrf</td>
-                <td>rfeoir</td>
-                <td>ergheo</td>
-                <td>fghjfk</td>
-            </tr>
+            {/* <PaymentTableRow /> */}
         </table>
        </> 
     )
