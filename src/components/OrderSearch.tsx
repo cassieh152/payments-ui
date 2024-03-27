@@ -1,6 +1,7 @@
 import { JSX } from "react/jsx-runtime"
 import OrderGrid from "./OrderGrid"
-import { PaymentType } from "./DataFunctions"
+import { PaymentType, getAllPayments } from "./DataFunctions"
+
 
 export type Transaction = {
     id: number,
@@ -44,9 +45,11 @@ const t1 = {
 // ]
 type OrderProps = {countryList: string[]} 
 type PaymentTypeData = {paymentTypeData: PaymentType[]}  
+ const paymentTypeAllData: PaymentType[] = getAllPayments();
 
 const OrderSearch = (props: OrderProps): JSX.Element =>{
-    //const paymentTypeArray: PaymentType[] = getAllPayments();
+  
+    // console.log(paymentTypeArray);
 
     return(
         <>
@@ -63,13 +66,10 @@ const OrderSearch = (props: OrderProps): JSX.Element =>{
                     );
                 })}
             </select>
-        {/* <OrderGrid /> */}
+        <OrderGrid paymentData={paymentTypeAllData}/>
         </p>
         </>
     )
 }
 export default OrderSearch
-function getAllPayments(): PaymentType[] {
-    throw new Error("Function not implemented.")
-}
 

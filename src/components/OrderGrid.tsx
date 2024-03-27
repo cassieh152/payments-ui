@@ -3,8 +3,13 @@ import { Transaction } from "./OrderSearch"
 import { PaymentTableRow } from "./PaymentTableRow"
 import { PaymentType } from "./DataFunctions"
 
+type PaymentDataProps = {paymentData: PaymentType[]} 
 
-const OrderGrid = (props: PaymentType[]):JSX.Element => {
+const OrderGrid = (props: PaymentDataProps):JSX.Element => {
+
+    const displaySongs: JSX.Element[] = props.paymentData.map((s) => 
+    <PaymentTableRow key={s.id} payment={s} 
+    />);
 
     return(
        <>
@@ -16,6 +21,7 @@ const OrderGrid = (props: PaymentType[]):JSX.Element => {
                 <th>Currency</th>
                 <th>Amount</th>
             </tr>
+            {displaySongs}
             {/* <PaymentTableRow /> */}
         </table>
        </> 

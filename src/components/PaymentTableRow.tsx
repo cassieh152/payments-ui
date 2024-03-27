@@ -1,16 +1,17 @@
 import { PaymentType } from "./DataFunctions"
 
-export const PaymentTableRow = (props: PaymentType): JSX.Element => {
+type PaymentTableRowProps = {payment: PaymentType};
+export const PaymentTableRow = (props: PaymentTableRowProps): JSX.Element => {
 
     return (<>
     
         <tr>
-            <td>{props.id}</td>
-            <td>{props.orderId}</td>
-            <td>{props.date}</td>
-            <td>{props.country}</td>
-            <td>{props.currency}</td>
-            <td>{props.amount}</td>
+            <td>{props.payment.id}</td>
+            <td>{props.payment.orderId}</td>
+            <td>{props.payment.date}</td>
+            <td>{props.payment.country}</td>
+            <td>{props.payment.currency}</td>
+            <td>{props.payment.amount}</td>
            
             </tr>
     
