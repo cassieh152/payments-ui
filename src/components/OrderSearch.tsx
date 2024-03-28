@@ -1,6 +1,7 @@
 import { JSX } from "react/jsx-runtime"
 import OrderGrid from "./OrderGrid"
 import { PaymentType, getAllPayments } from "./DataFunctions"
+import { ChangeEvent, useState } from "react"
 
 
 export type Transaction = {
@@ -11,52 +12,54 @@ export type Transaction = {
     amount: number
 }
     
-const t1 = {
-            id: 123,
-            date: new Date(),
-            country: 'USA',
-            currency: 'USD',
-            amount: 100
-        }
-
-
-// const transactionData: Transaction[]=[
-//     {
-//         id: 123,
-//         date: new Date(),
-//         country: 'USA',
-//         currency: 'USD',
-//         amount: 100
-//     },
-//     {
-//         id: 456,
-//         date: new Date(),
-//         country: 'UK',
-//         currency: 'Pound',
-//         amount: 200
-//     },
-//     {
-//         id: 789,
-//         date: new Date(),
-//         country: 'MEX',
-//         currency: 'Peso',
-//         amount: 200
-//     },
-// ]
 type OrderProps = {countryList: string[]} 
 type PaymentTypeData = {paymentTypeData: PaymentType[]}  
- const paymentTypeAllData: PaymentType[] = getAllPayments();
+let paymentTypeAllData: PaymentType[] = getAllPayments();
 
+const countries: string[] = [];
+
+
+const countriesArray = paymentTypeAllData.map ((s) =>  
+countries.push(s.country));
+
+
+const uniqueCountries : string[] = countries.filter((country, index) => countries.indexOf(country) === index);
+//console.log(uniqueCountries);
+let resultOfFilteringPaymenTypeArray = paymentTypeAllData;
+
+ 
 const OrderSearch = (props: OrderProps): JSX.Element =>{
-  
-    // console.log(paymentTypeArray);
+
+    const [selectedCountry , setSelectedCountry] = useState<string>(uniqueCountries[0])
+
+    const changeCountry = (e : ChangeEvent<HTMLSelectElement>) => {
+        const option = e.target.options.selectedIndex;
+        //setSelectedCountry(uniqueCountries[option]);
+        setSelectedCountry((country) => (uniqueCountries[option]));
+        console.log("Selected country is " + selectedCountry);
+       
+        let tempArray: PaymentType[] = [];
+        paymentTypeAllData.map(e => {
+            if(e.country === selectedCountry) {
+                tempArray.push(e);
+            } 
+        })
+        console.log(tempArray);
+        if(tempArray.length !== 0){
+            resultOfFilteringPaymenTypeArray = tempArray;
+            //console.log(resultOfFilteringPaymenTypeArray);
+        } else {
+            resultOfFilteringPaymenTypeArray = {...paymentTypeAllData}
+        }
+    }
+
 
     return(
         <>
         <p>Order Id:  
         <input/>
         <button onClick={()=>console.log('click')}>Search</button>
-        <select >
+        <select onChange={ changeCountry}>
                 {/* <option>Please choose one option</option> */}
                 {props.countryList.map((countryCode, index) => {
                     return (
@@ -66,7 +69,7 @@ const OrderSearch = (props: OrderProps): JSX.Element =>{
                     );
                 })}
             </select>
-        <OrderGrid paymentData={paymentTypeAllData}/>
+        <OrderGrid paymentData={resultOfFilteringPaymenTypeArray}/>
         </p>
         </>
     )
